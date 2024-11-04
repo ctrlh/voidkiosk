@@ -1,0 +1,28 @@
+version: "2.1"
+
+services:
+
+  voidkiosk:
+    build: .
+    network_mode: host
+    restart: always
+    ports:
+      - 8080:80
+
+  browser:
+    image: bh.cr/balenalabs/browser-amd64
+    privileged: true
+    restart: always
+    network_mode: host
+    ports:
+      - '5011'
+      - '35173'
+    volumes:
+      - 'browser:/data'
+    environment:
+      - LAUNCH_URL=http://localhost:8080/
+      - KIOSK=1
+      - SHOW_CURSOR=0
+
+volumes:
+  browser:
